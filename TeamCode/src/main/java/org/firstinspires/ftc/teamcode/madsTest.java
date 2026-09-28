@@ -64,17 +64,17 @@ public class madsTest extends LinearOpMode {
 
 // Hardware get info stuff
 
-        frontLeft = hardwareMap.get(DcMotor.class, "front_left");
-        backLeft = hardwareMap.get(DcMotor.class, "back_left");
-        frontRight = hardwareMap.get(DcMotor.class, "front_right");
-        backRight = hardwareMap.get(DcMotor.class, "back_right");
-        flyWheel = hardwareMap.get(DcMotor.class, "fly_wheel");
-        mainIntake = hardwareMap.get(DcMotor.class, "main_intake");
-        middleIntake = hardwareMap.get(DcMotor.class, "middle_intake");
+        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
+        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
+        frontRight = hardwareMap.get(DcMotor.class, "frontLeft");
+        backRight = hardwareMap.get(DcMotor.class, "backRight");
+        flyWheel = hardwareMap.get(DcMotor.class, "flyWheel");
+        mainIntake = hardwareMap.get(DcMotor.class, "mainIntake");
+        middleIntake = hardwareMap.get(DcMotor.class, "middleIntake");
 
-        intakeFrontLeft  = hardwareMap.get(Servo.class, "left_intake");
-        intakeFrontRight = hardwareMap.get(Servo.class, "right_intake");
-        ballBlock = hardwareMap.get(Servo,class, "ball_block");
+        intakeFrontLeft  = hardwareMap.get(Servo.class, "intakeFrontLeft");
+        intakeFrontRight = hardwareMap.get(Servo.class, "intakeFrontRight");
+        ballBlock = hardwareMap.get(Servo.class, "ballBlock");
 
         CameraCompatibilityManager.getInstance();
         initAprilTag();
