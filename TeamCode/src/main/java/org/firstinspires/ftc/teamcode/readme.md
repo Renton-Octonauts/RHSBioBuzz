@@ -1,1 +1,3 @@
 What's reality? I don't know. When my robot was looking at my computer monitor I thought, "That robot has no idea what he's looking at." And yet what does the robot do? Does he panic? No, he can't really panic, he just does the best he can. Is he able to live in a world where he's so ignorant? Well, he doesn't really have a choice. Yeah, he can kinda live. Usually the robot is okay even though he doesn't understand the world. He can kinda learn what's safe and what's dangerous. That's where I've been living. You're that robot looking at the monitor, and you're thinking to yourself, "I can figure this out." Maybe you have some robot ideas. Maybe that's the best you can do.
+
+*Bird
