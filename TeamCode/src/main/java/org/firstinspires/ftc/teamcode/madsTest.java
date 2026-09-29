@@ -15,6 +15,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagClusterDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.apriltag.AprilTagSingleDetection;
+import java.util.List;
 
 @TeleOp(name = "madsTest")
 public class madsTest extends LinearOpMode {
@@ -99,6 +100,7 @@ public class madsTest extends LinearOpMode {
                 Strafe = gamepad1.right_stick_x * 1;
                 
                 // AprilTag Stuff
+                shooterTest();
                 telemetryAprilTag();
                 telemetry.update();
 
@@ -139,6 +141,12 @@ public class madsTest extends LinearOpMode {
 //        
 //    }
 
+    private void shooterTest() {
+        if (aprilTag.getDetections() != null) {
+            flyWheel.setPower(1);
+            
+        }
+    }
     
     // I got initAprilTag() and telemetryAprilTag() from Concept.Apriltag.java
     private void initAprilTag() {
