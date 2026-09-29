@@ -102,7 +102,9 @@ public class madsTest extends LinearOpMode {
                 // AprilTag Stuff
                 shooterTest();
                 telemetryAprilTag();
+                telemetry.addLine(aprilTag.getDetections().toString());
                 telemetry.update();
+
 
                 // Ball Blocker controls (right bumper, left bumper)
                 if (gamepad1.right_bumper) {
