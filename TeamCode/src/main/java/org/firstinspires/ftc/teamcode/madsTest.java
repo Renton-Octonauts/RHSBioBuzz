@@ -79,8 +79,6 @@ public class madsTest extends LinearOpMode {
 
         CameraCompatibilityManager.getInstance();
         initAprilTag();
-        telemetry.addData("DS preview on/off", "Camera Stream");
-        telemetry.addData(">", "Touch START to start OpMode");
         telemetry.update();
 
 
