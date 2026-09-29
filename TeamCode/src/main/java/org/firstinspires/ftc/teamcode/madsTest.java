@@ -31,8 +31,8 @@ public class madsTest extends LinearOpMode {
     private static final boolean USE_WEBCAM = true;
     private AprilTagProcessor aprilTag;
     private VisionPortal visionPortal;
-    static final int VENDOR_ID = 046D; //this is for future ref incase we need to use CamCompManager
-    static final int PRODUCT_ID = 0825;
+//    static final int VENDOR_ID = 046D; //this is for future ref incase we need to use CamCompManager
+//    static final int PRODUCT_ID = 0825;
 
     // Motors
 
@@ -139,7 +139,6 @@ public class madsTest extends LinearOpMode {
 //        
 //    }
 
-
     
     // I got initAprilTag() and telemetryAprilTag() from Concept.Apriltag.java
     private void initAprilTag() {
@@ -160,8 +159,6 @@ public class madsTest extends LinearOpMode {
                 // to load a predefined calibration for your camera.
                 //.setLensIntrinsics(578.272, 578.272, 402.145, 221.506)
                 // ... these parameters are fx, fy, cx, cy.
-
-    
 
         // Adjust Image Decimation to trade-off detection-range for detection-rate.
         // eg: Some typical detection data using a Logitech C920 WebCam
@@ -209,7 +206,7 @@ public class madsTest extends LinearOpMode {
     
     private void telemetryAprilTag() {
 
-        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        ArrayList<AprilTagDetection> currentDetections = aprilTag.getDetections();
         telemetry.addData("# AprilTags Detected", currentDetections.size());
 
         // Step through the list of detections and display info for each one.
