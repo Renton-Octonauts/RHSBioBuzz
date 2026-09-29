@@ -214,7 +214,8 @@ public class madsTest extends LinearOpMode {
     
     private void telemetryAprilTag() {
 
-        ArrayList<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        telemetry.addLine(currentDetections().toString());
         telemetry.addData("# AprilTags Detected", currentDetections.size());
 
         // Step through the list of detections and display info for each one.
