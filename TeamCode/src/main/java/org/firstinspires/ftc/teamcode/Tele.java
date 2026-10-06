@@ -39,7 +39,7 @@ public class Tele extends LinearOpMode {
             } else if (gamepad2.right_bumper) {
                 hw.shooterMotor.setPower(1.0);
             } else {
-                hw.stopShooter();
+                hw.shooterMotor.setPower(0);
             }
 
             // Intake: left trigger to intake in, left bumper to reverse/out
@@ -50,15 +50,8 @@ public class Tele extends LinearOpMode {
             } else if (gamepad2.left_bumper) {
                 hw.intakeMotor.setPower(-1.0);
             } else {
-                hw.stopIntake();
+                hw.intakeMotor.setPower(0);
             }
-
-            // --- transLeft and TransRight Servos (gamepad2) ---
-            if (gamepad2.dpad_up == true) {
-                hw.transLeft.setPower(1.0);
-                hw.transRight.setPower(1.0);
-            }
-
 
             telemetry.addData("Front Left Power", hw.frontLeft.getPower());
             telemetry.addData("Front Right Power", hw.frontRight.getPower());
