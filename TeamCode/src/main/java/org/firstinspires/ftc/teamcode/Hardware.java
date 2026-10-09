@@ -15,13 +15,9 @@ public class Hardware {
     public DcMotor backLeft;
     public DcMotor backRight;
 
-    // Use this one
     public DcMotor intakeMotor;
 
-    // shooter motor
     public DcMotor shooterMotor;
-
-    // Transition Motor Names
 
     private Hardware(OpMode opMode) {
         self = this;
@@ -53,11 +49,9 @@ public class Hardware {
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        // Intake motor
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
 
-        // Shooter motor
-        shooterMotor = hardwareMap.get(DcMotor.class, "motor");
+        shooterMotor = hardwareMap.get(DcMotor.class, "flyWheel");
         shooterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         shooterMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
