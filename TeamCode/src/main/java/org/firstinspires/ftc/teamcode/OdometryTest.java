@@ -31,7 +31,7 @@ public class OdometryTest extends OpMode {
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
 
         // Odometry computer Config
-        // Configure these offsets and directions to match the robot's pod placement and wiring.
+        // TODO Configure these offsets and directions to match the robot's pod placement and wiring.
         odo.setOffsets(0, 0, DistanceUnit.MM);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD,
