@@ -66,6 +66,7 @@ public class OdometryTest extends OpMode {
         double backRightPower = y + x - rx;
 
         // Scale all wheel powers together when needed to preserve the requested direction.
+        // Compares all power, if all less than 1.0, make to 1.0 (max power)
         double maxPower = Math.max(1.0, Math.max(Math.max(Math.abs(frontLeftPower), Math.abs(backLeftPower)),
                 Math.max(Math.abs(frontRightPower), Math.abs(backRightPower))));
         frontLeft.setPower(frontLeftPower / maxPower);
