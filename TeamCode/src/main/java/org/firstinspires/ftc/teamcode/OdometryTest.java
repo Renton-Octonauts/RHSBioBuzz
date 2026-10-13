@@ -10,27 +10,20 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
 
-/*
-* NOT DONE
-* https://github.com/goBILDA-Official/FtcRobotController-Add-Pinpoint/blob/goBILDA-Odometry-Driver/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/SensorGoBildaPinpointExample.java
-* The link above can also be used to create odometry (:
-*/
 @TeleOp(name = "Odometry test", group = "Linear Opmode")
 public class OdometryTest extends OpMode {
 
-    GoBildaPinpointDriver odo;
+    private GoBildaPinpointDriver odo;
+    private boolean previousResetButtonState;
 
-    public DcMotor frontLeft;
-    public DcMotor frontRight;
-    public DcMotor backLeft;
-    public DcMotor backRight;
-    public DcMotor shooterMotor;
+    private DcMotor frontLeft;
+    private DcMotor frontRight;
+    private DcMotor backLeft;
+    private DcMotor backRight;
 
     @Override
     public void init() {
         odo = hardwareMap.get(GoBildaPinpointDriver.class, "odometry");
-
-        // TODO make it so that the correct ones are reversed
 
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
@@ -38,19 +31,57 @@ public class OdometryTest extends OpMode {
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
 
         // Odometry computer Config
-        odo.setOffsets(-0, -0); // set this to where the computer is relative to the robot
-        // ^^ i also don't know what else it needs
-        odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD); // idk might need to change
-        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD); // also might need to change
+        // Configure these offsets and directions to match the robot's pod placement and wiring.
+        odo.setOffsets(0, 0, DistanceUnit.MM);
+        odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD,
+                GoBildaPinpointDriver.EncoderDirection.FORWARD);
 
-        // Odometry Starting position
+        // Keep the robot stationary while the Pinpoint calibrates its IMU.
         odo.resetPosAndIMU();
-        Pose2D startingPos = new Pose2D(DistanceUnit.MM, 0,0, AngleUnit.RADIANS, 0); // where the robot is starting on the field
-        odo.setPosition(startingPos);
+        odo.setPosition(new Pose2D(DistanceUnit.MM, 0, 0, AngleUnit.RADIANS, 0));
     }
 
     @Override
     public void loop() {
 
+        // Update Pinpoint before reading its pose.
+        odo.update();
+
+        // Press A once to reset the field position without repeatedly resetting while held.
+        boolean resetButtonPressed = gamepad1.a;
+        if (resetButtonPressed && !previousResetButtonState) {
+            odo.setPosition(new Pose2D(DistanceUnit.MM, 0, 0, AngleUnit.RADIANS, 0));
+            odo.update();
+        }
+        previousResetButtonState = resetButtonPressed;
+
+        double y = -gamepad1.left_stick_y;    // forward/back
+        double x = gamepad1.left_stick_x;     // strafe
+        double rx = gamepad1.right_stick_x;   // rotate
+
+        double frontLeftPower = y + x + rx;
+        double backLeftPower = y - x + rx;
+        double frontRightPower = y - x - rx;
+        double backRightPower = y + x - rx;
+
+        // Scale all wheel powers together when needed to preserve the requested direction.
+        double maxPower = Math.max(1.0, Math.max(Math.max(Math.abs(frontLeftPower), Math.abs(backLeftPower)),
+                Math.max(Math.abs(frontRightPower), Math.abs(backRightPower))));
+        frontLeft.setPower(frontLeftPower / maxPower);
+        backLeft.setPower(backLeftPower / maxPower);
+        frontRight.setPower(frontRightPower / maxPower);
+        backRight.setPower(backRightPower / maxPower);
+
+        Pose2D position = odo.getPosition();
+        telemetry.addData("Odometry X", "%.1f mm", position.getX(DistanceUnit.MM));
+        telemetry.addData("Odometry Y", "%.1f mm", position.getY(DistanceUnit.MM));
+        telemetry.addData("Heading", "%.1f deg", position.getHeading(AngleUnit.DEGREES));
+        telemetry.addData("Reset position", "Press A");
+        telemetry.addData("Front left power", frontLeft.getPower());
+        telemetry.addData("Front right power", frontRight.getPower());
+        telemetry.addData("Back left power", backLeft.getPower());
+        telemetry.addData("Back right power", backRight.getPower());
+        telemetry.update();
     }
 }
