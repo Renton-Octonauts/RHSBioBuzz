@@ -4,6 +4,7 @@ import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -15,6 +16,10 @@ public class OdometryTest extends OpMode {
 
     private GoBildaPinpointDriver odo;
     private boolean previousResetButtonState;
+
+    private VoltageSensor vs;
+
+    double currentVS = vs.getVoltage();
 
     private DcMotor frontLeft;
     private DcMotor frontRight;
@@ -29,6 +34,8 @@ public class OdometryTest extends OpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
+
+        vs = hardwareMap.get(VoltageSensor.class, "Control Hub");
 
         // Odometry computer Config
         // TODO Configure these offsets and directions to match the robot's pod placement and wiring.
@@ -73,6 +80,14 @@ public class OdometryTest extends OpMode {
         backLeft.setPower(backLeftPower / maxPower);
         frontRight.setPower(frontRightPower / maxPower);
         backRight.setPower(backRightPower / maxPower);
+
+        // if the battery is below a certain voltage it sets the power of movement to less so we can focus power on intake and fly wheel
+        if(currentVS <= 11.8) {
+            frontLeft.setPower(frontLeftPower / 0.5);
+            backLeft.setPower(backLeftPower / 0.5);
+            frontRight.setPower(frontRightPower / 0.5);
+            backRight.setPower(backRightPower / 0.5);
+        }
 
         Pose2D position = odo.getPosition();
         telemetry.addData("Odometry X", "%.1f mm", position.getX(DistanceUnit.MM));
