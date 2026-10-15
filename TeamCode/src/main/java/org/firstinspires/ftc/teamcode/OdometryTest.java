@@ -4,12 +4,14 @@ import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
+// Change name once finalized
 
 @TeleOp(name = "Odometry test", group = "Linear Opmode")
 public class OdometryTest extends OpMode {
@@ -26,6 +28,10 @@ public class OdometryTest extends OpMode {
     private DcMotor backLeft;
     private DcMotor backRight;
 
+    private DcMotor intake;
+
+    private DcMotorEx flyWheel;
+
     @Override
     public void init() {
         odo = hardwareMap.get(GoBildaPinpointDriver.class, "odometry");
@@ -34,12 +40,14 @@ public class OdometryTest extends OpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
+        intake = hardwareMap.get(DcMotor.class, "intakeMotor");
+        flyWheel = hardwareMap.get(DcMotorEx.class, "flyWheel");
 
         vs = hardwareMap.get(VoltageSensor.class, "Control Hub");
 
         // Odometry computer Config
-        // TODO Configure these offsets and directions to match the robot's pod placement and wiring.
-        odo.setOffsets(0, 0, DistanceUnit.MM);
+        // Update these if the robot changes lengths and stuff
+        odo.setOffsets(400, 380, DistanceUnit.MM);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD,
                 GoBildaPinpointDriver.EncoderDirection.FORWARD);
@@ -87,6 +95,19 @@ public class OdometryTest extends OpMode {
             backLeft.setPower(backLeftPower / 0.5);
             frontRight.setPower(frontRightPower / 0.5);
             backRight.setPower(backRightPower / 0.5);
+        }
+
+        // intake and flywheel
+        if(gamepad1.right_trigger_pressed) {
+            flyWheel.setVelocity(6000);
+        } else {
+            flyWheel.setPower(0);
+        }
+
+        if(gamepad1.left_trigger_pressed) {
+            intake.setPower(1);
+        } else {
+            intake.setPower(0);
         }
 
         Pose2D position = odo.getPosition();

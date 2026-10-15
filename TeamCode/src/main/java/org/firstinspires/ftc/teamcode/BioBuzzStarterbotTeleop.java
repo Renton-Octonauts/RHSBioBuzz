@@ -56,7 +56,7 @@ public class BioBuzzStarterbotTeleop extends OpMode {
     public final int LAUNCHER_TARGET_VELOCITY = 6000;
 
     /** Minimum measured speed before the windmill feeds a game element. */
-    public final int LAUNCHER_MIN_VELOCITY = 1200;
+    public final int LAUNCHER_MIN_VELOCITY = 6000;
 
     /** Drive powers last sent to each side; used for telemetry. */
     double leftPower;
