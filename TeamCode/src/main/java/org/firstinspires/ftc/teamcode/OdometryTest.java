@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
-// Change name once finalized
+// TODO Change name once finalized
 
 @TeleOp(name = "Odometry test", group = "Linear Opmode")
 public class OdometryTest extends OpMode {
@@ -46,13 +46,13 @@ public class OdometryTest extends OpMode {
         vs = hardwareMap.get(VoltageSensor.class, "Control Hub");
 
         // Odometry computer Config
-        // Update these if the robot changes lengths and stuff
+        // TODO Update these if the robot changes lengths and stuff
         odo.setOffsets(400, 380, DistanceUnit.MM);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD,
                 GoBildaPinpointDriver.EncoderDirection.FORWARD);
 
-        // Keep the robot stationary while the Pinpoint calibrates its IMU.
+        // Keep the robot stationary while the Pinpoint calibrates its IMU
         odo.resetPosAndIMU();
         odo.setPosition(new Pose2D(DistanceUnit.MM, 0, 0, AngleUnit.RADIANS, 0));
     }
@@ -64,6 +64,7 @@ public class OdometryTest extends OpMode {
         odo.update();
 
         // Press A once to reset the field position without repeatedly resetting while held.
+        // TODO might need to change this if drivers are accidentally hitting this
         boolean resetButtonPressed = gamepad1.a;
         if (resetButtonPressed && !previousResetButtonState) {
             odo.setPosition(new Pose2D(DistanceUnit.MM, 0, 0, AngleUnit.RADIANS, 0));
@@ -99,11 +100,13 @@ public class OdometryTest extends OpMode {
 
         // intake and flywheel
         if(gamepad1.right_trigger_pressed) {
+            // TODO might need to lower this
             flyWheel.setVelocity(6000);
         } else {
             flyWheel.setPower(0);
         }
 
+        // Noodle intake
         if(gamepad1.left_trigger_pressed) {
             intake.setPower(1);
         } else {

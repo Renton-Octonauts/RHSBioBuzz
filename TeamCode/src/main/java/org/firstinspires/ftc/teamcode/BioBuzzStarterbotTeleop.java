@@ -44,6 +44,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 //@Disabled
 public class BioBuzzStarterbotTeleop extends OpMode {
 
+    // I think this is so that it won't pop up with the error
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
     private DcMotorEx launcher = null;
