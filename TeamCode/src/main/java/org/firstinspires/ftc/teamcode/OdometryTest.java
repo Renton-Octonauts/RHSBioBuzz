@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.annotation.SuppressLint;
+
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -7,9 +9,16 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.firstinspires.ftc.vision.apriltag.AprilTagSingleDetection;
+
+import java.util.List;
 
 // TODO Change name once finalized
 
@@ -32,6 +41,9 @@ public class OdometryTest extends OpMode {
 
     private DcMotorEx flyWheel;
 
+    private AprilTagProcessor aprilTag;
+    private VisionPortal visionPortal;
+
     @Override
     public void init() {
         odo = hardwareMap.get(GoBildaPinpointDriver.class, "odometry");
@@ -45,6 +57,15 @@ public class OdometryTest extends OpMode {
 
         vs = hardwareMap.get(VoltageSensor.class, "Control Hub");
 
+        flyWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        flyWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         // Odometry computer Config
         // TODO Update these if the robot changes lengths and stuff
         odo.setOffsets(400, 380, DistanceUnit.MM);
@@ -55,8 +76,27 @@ public class OdometryTest extends OpMode {
         // Keep the robot stationary while the Pinpoint calibrates its IMU
         odo.resetPosAndIMU();
         odo.setPosition(new Pose2D(DistanceUnit.MM, 0, 0, AngleUnit.RADIANS, 0));
+
+        // Initialize the AprilTag processor
+        aprilTag = AprilTagProcessor.easyCreateWithDefaults();
+
+        // Initialize the VisionPortal with the Logitech webcam named "webcam" and enable live view
+        visionPortal = new VisionPortal.Builder()
+            .setCamera(hardwareMap.get(WebcamName.class, "webcam"))
+            .addProcessor(aprilTag)
+            .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
+            .enableLiveView(true)
+            .build();
+
+        telemetry.addData("Status", "AprilTag initialized with Logitech webcam and live view enabled");
+        telemetry.update();
     }
 
+    public void start() {
+        visionPortal.resumeStreaming();
+    }
+
+    @SuppressLint("DefaultLocale")
     @Override
     public void loop() {
 
@@ -112,6 +152,43 @@ public class OdometryTest extends OpMode {
         } else {
             intake.setPower(0);
         }
+        
+        /*
+         * For Auto ball collection in the future 
+         */
+
+        // Get current detections
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        telemetry.addData("# AprilTags Detected", currentDetections.size());
+
+        /**
+         * Detect balls based on color {@link #getBallColor(int)}
+         */
+        StringBuilder ballColors = new StringBuilder("Ball colors: ");
+        for (AprilTagDetection detection : currentDetections) {
+            if(detection instanceof AprilTagSingleDetection) {
+                AprilTagSingleDetection single = (AprilTagSingleDetection) detection;
+                String color = getBallColor(single.id);
+                if (color != null) {
+                    ballColors.append(color).append(", ");
+                }
+
+                if(single.metadata != null) {
+                     telemetry.addLine(String.format(
+                    "ID %d: %s", single.id, single.metadata.name));
+                } else {
+                    telemetry.addLine(String.format(
+                    "ID %d: Unknown", single.id));
+                }
+                }
+        }
+        if (ballColors.length() > 13) { // Remove trailing comma and space
+            ballColors.setLength(ballColors.length() - 2);
+        } else {
+            ballColors.append("None detected");
+        }
+        telemetry.addLine(ballColors.toString());
+
 
         Pose2D position = odo.getPosition();
         telemetry.addData("Odometry X", "%.1f mm", position.getX(DistanceUnit.MM));
@@ -123,5 +200,20 @@ public class OdometryTest extends OpMode {
         telemetry.addData("Back left power", backLeft.getPower());
         telemetry.addData("Back right power", backRight.getPower());
         telemetry.update();
+
+        // TODO add april tag telemetry
+    }
+
+    private String getBallColor(int id) {
+        switch (id) {
+            case 1: return "Red";
+            case 2: return "Blue";
+            case 3: return "Yellow";
+            default: return null; // Unknown tag
+        }
+    }
+
+    public void stop() {
+        visionPortal.close();
     }
 }

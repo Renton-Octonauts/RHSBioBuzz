@@ -54,4 +54,4 @@ powers through telemetry.
 
 ## Source
 
-Implementation: [BioBuzzStarterbotTeleop.java](BioBuzzStarterbotTeleop.java).
+Implementation: [BioBuzzStarterbotTeleop.java](../BioBuzzStarterbotTeleop.java).
