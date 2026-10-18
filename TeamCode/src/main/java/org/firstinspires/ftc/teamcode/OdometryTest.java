@@ -132,10 +132,10 @@ public class OdometryTest extends OpMode {
 
         // if the battery is below a certain voltage it sets the power of movement to less so we can focus power on intake and fly wheel
         if(currentVS <= 11.8) {
-            frontLeft.setPower(frontLeftPower / 0.5);
-            backLeft.setPower(backLeftPower / 0.5);
-            frontRight.setPower(frontRightPower / 0.5);
-            backRight.setPower(backRightPower / 0.5);
+            frontLeft.setPower(frontLeftPower / 2);
+            backLeft.setPower(backLeftPower / 2);
+            frontRight.setPower(frontRightPower / 2);
+            backRight.setPower(backRightPower / 2);
         }
 
         // intake and flywheel
