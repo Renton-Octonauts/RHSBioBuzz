@@ -14,6 +14,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Autonomous(name= "Biobuzz Basic Autonomous")
 public class Auto extends LinearOpMode {
 
+    /*
+        this auto preferably runs better if we are on the left side of our alliance or whoever is next to us so we don't "purposefully" run into them
+    */
     @Override
     public void runOpMode() {
         Hardware hw = Hardware.getInstance(this);
@@ -22,11 +25,15 @@ public class Auto extends LinearOpMode {
         waitForStart();
 
         while(opModeIsActive()) {
+            hw.strafeLeft(1);
+            sleep(500);
+            hw.setPower(0);
+            sleep(500);
             hw.setPower(1);
             sleep(1000);
             hw.setPower(0);
 
-            telemetry.addData("EZ points right here", hw.flyWheel.getPower());
+            telemetry.addData("EZ points right here", hw.getLeftPower());
             telemetry.update();
         }
     }

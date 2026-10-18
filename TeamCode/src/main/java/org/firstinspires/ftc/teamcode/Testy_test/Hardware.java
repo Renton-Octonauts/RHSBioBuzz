@@ -110,10 +110,29 @@ public class Hardware {
 
     public void stop() { visionPortal.close(); }
 
-    public void setPower(int power) {
+    public void setPower(double power) {
         frontLeft.setPower(power);
         frontRight.setPower(power);
         backLeft.setPower(power);
         backRight.setPower(power);
+    }
+
+    // might need to update for new robot
+    public void strafeLeft(double power) {
+        frontLeft.setPower(-power);
+        frontRight.setPower(power);
+        backLeft.setPower(power);
+        backRight.setPower(-power);
+    }
+
+    public void strafeRight(double power) {
+        frontLeft.setPower(power);
+        frontRight.setPower(-power);
+        backLeft.setPower(-power);
+        backRight.setPower(power);
+    }
+
+    public double getLeftPower() {
+        return frontLeft.getPower() + backLeft.getPower();
     }
 }
