@@ -20,7 +20,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagSingleDetection;
 
 import java.util.List;
 
-// TODO Change name once finalized
+// TODO Change name once finalized (OR USE TELE IN TESTY_TEST)
 
 @TeleOp(name = "Odometry test", group = "Linear Opmode")
 public class OdometryTest extends OpMode {
@@ -68,6 +68,9 @@ public class OdometryTest extends OpMode {
 
         // Odometry computer Config
         // TODO Update these if the robot changes lengths and stuff
+        /* Units are in Millimeters
+         *  CM -> MM (x10) IN -> MM (x25.4)
+         */
         odo.setOffsets(400, 380, DistanceUnit.MM);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD,

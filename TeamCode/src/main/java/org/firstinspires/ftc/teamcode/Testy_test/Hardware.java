@@ -117,7 +117,7 @@ public class Hardware {
         backRight.setPower(power);
     }
 
-    // might need to update for new robot
+    // TODO this is from last season might need to update for new robot
     public void strafeLeft(double power) {
         frontLeft.setPower(-power);
         frontRight.setPower(power);
