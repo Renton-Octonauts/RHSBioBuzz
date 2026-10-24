@@ -3,9 +3,10 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "MainBotTestAuto0.1")
-public class MainBotTestAuto extends LinearOpMode {
+@Autonomous(name = "MainBotTestAuto01")
+public class MainBotTestAuto01 extends LinearOpMode {
 
     private DcMotor flyWheel;
     private DcMotor frontLeft;

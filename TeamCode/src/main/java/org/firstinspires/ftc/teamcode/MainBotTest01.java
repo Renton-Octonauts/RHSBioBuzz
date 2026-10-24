@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@TeleOp(name = "MainBotTest0.1")
+@TeleOp(name = "MainBotTest01")
 public class MainBotTest01 extends LinearOpMode {
 
     private DcMotor flyWheel;
