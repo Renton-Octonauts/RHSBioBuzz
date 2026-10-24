@@ -15,6 +15,9 @@ public class testycals extends LinearOpMode {
     private DcMotor backLeft;
     private DcMotor frontRight;
     private DcMotor backRight;
+    private DcMotor midIntake;
+//    private DcMotor mainIntake;
+    private Servo stopper;
     // todo: write your code here
 
     @Override
@@ -36,6 +39,11 @@ public class testycals extends LinearOpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         flyWheel = hardwareMap.get(DcMotor.class, "flyWheel");
+        stopper = hardwareMap.get(Servo.class, "stopper");
+        midIntake = hardwareMap.get(DcMotor.class, "midIntake");
+
+  //      Only use main intake if we add a motor to the front intake
+  //      mainIntake = hardwareMap.get(DcMotor.class, "mainIntake"); 
 
 
         waitForStart();
@@ -57,12 +65,32 @@ public class testycals extends LinearOpMode {
 
                 // Fly Wheel controls (Dpad up, Dpad down)
                 if (gamepad1.dpad_up) {
-                    flyWheel.setPower(1);
+                    flyWheel.setPower(1); // Go go flywheel 
+                    midIntake.setPower(1); //Fast intake
+                    stopper.setPosition(0.5); // Open Pos
                 }
                 if (gamepad1.dpad_down) {
                     flyWheel.setPower(-0.01); //This is like this because if it isnt then it dosent stop fast enough on bot
+                    midIntake.setPower(0.5); //Slower intake
+                    stopper.setPosition(0); // Closed Pos
                 }
-            }
-        }
+
+                \\ Front Intake Controls
+
+                if (gamepad1.right_bumper) { // graby graby balls should be norm
+      //              mainIntake.setPower(1);
+                    midIntake.setPower(1);
+                } 
+                if (gamepad1.left_bumper) { // bady bady balls 
+      //              mainIntake.setPower(-1);
+                    midIntake.setPower(-1); //Reversy revere
+                }
+//                if (gamepad1.dpad_left) {
+//                    stopper.setPosition(1);
+//                }
+//                if (gamepad1.dpad_right) {
+//                    stopper.setPosition(0);
+//                }
+
     }
 }
