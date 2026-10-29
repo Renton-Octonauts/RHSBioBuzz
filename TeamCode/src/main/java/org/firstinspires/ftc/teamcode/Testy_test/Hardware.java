@@ -4,8 +4,10 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.tel
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
@@ -35,6 +37,8 @@ public class Hardware {
 
     DcMotorEx flyWheel;
 
+    public CRServo trans;
+
     AprilTagProcessor aprilTag;
     private VisionPortal visionPortal;
 
@@ -57,6 +61,7 @@ public class Hardware {
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         intake = hardwareMap.get(DcMotor.class, "intakeMotor");
         flyWheel = hardwareMap.get(DcMotorEx.class, "flyWheel");
+        trans = hardwareMap.get(CRServo.class, "midIntake");
 
         vs = hardwareMap.get(VoltageSensor.class, "Control Hub");
 
