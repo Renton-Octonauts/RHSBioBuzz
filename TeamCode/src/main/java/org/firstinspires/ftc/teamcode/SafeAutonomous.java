@@ -21,11 +21,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * added to the Driver Station.
  */
 
-@Autonomous (name = "Safe Auto Blue Alliance, facing pollen line")
+@Autonomous (name = "Safe Auto Blue Alliance, near pollen line")
 
 public class BlueAlliancePollenLine extends LinearOpMode {
 
-    static final double FLYWHEEL_POWER = 1 // TODO Calibrate flywheel power for accurate shooting into hive
+    private static final double FLYWHEEL_POWER = 1 // TODO Calibrate flywheel power for accurate shooting into hive
+    private static final double LAUNCH_VELOCITY_MINIMUM_POWER = 0.5;
 
     private DcMotor flyWheel;
     private DcMotor frontLeft;
@@ -59,25 +60,30 @@ public class BlueAlliancePollenLine extends LinearOpMode {
             while (opModeIsActive()) {
                 // We are using psuedo-block code to make it easier to debug for newbies. T.Q. please do not be angry at this, you might have a 2nd emergency and cant come to comp and nobody can read ur code.
 
-                //
+                // Shoot current 4 pollen inside bot
+                flyWheel.setPower(1);
+                midIntake.setPower(0.8); //Fast intake
+                stopper.setPosition(0.91); // I don't know why it's 0.91........ ask madybranch
+                telemetry.addLine("Shooting");
+                sleep(5000); // TODO check how long till all pollen is expelled
+
+                // Turn it all off
+                flyWheel.setPower(0);
+                midIntake.setPower(0);
+                stopper.setPosition(0);
+                telemetry.addLine("Stopped shooting");
+
+                // Go collect pollen from pollen line
                 forwardMovement();
-                stopper.setPosition(0.91);
-                midIntake.setPower(1);
-                sleep(500);
-
-
-
-
-
-
-
-
-
+                sleep(100);
+                stopMovement();
+                sleep(100);
 
                 // Stop bot
                 stopMovement();
                 sleep(3000);
                 midIntake.setPower(0);
+                flyWheel.setPower(0);
                 telemetry.update();
                 break;
             }
@@ -95,9 +101,6 @@ public class BlueAlliancePollenLine extends LinearOpMode {
         sleep(100);
     }
 
-    /**
-     * Moves bot forward
-     */
     private void forwardMovement() {
         frontLeft.setPower(-1);
         backLeft.setPower(-1);
@@ -117,5 +120,19 @@ public class BlueAlliancePollenLine extends LinearOpMode {
         backLeft.setPower(-1);
         frontRight.setPower(1);
         backRight.setPower(-1);
+    }
+
+    private void rightRotate() { // TODO double check if it truly rotates right
+        frontLeft.setPower(-0.5);
+        backLeft.setPower(-0.5);
+        frontRight.setPower(-0.5);
+        backRight.setPower(-0.5);
+    }
+
+    private void leftRotate() { // TODO double check if it truly rotates left
+        frontLeft.setPower(0.5);
+        backLeft.setPower(0.5);
+        frontRight.setPower(0.5);
+        backRight.setPower(0.5);
     }
 }
