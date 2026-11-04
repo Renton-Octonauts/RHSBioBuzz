@@ -60,9 +60,9 @@ public class BlueAlliancePollenLine extends LinearOpMode {
             while (opModeIsActive()) {
                 // We are using psuedo-block code to make it easier to debug for newbies. T.Q. please do not be angry at this, you might have a 2nd emergency and cant come to comp and nobody can read ur code.
 
-                // Shoot current 4 pollen inside bot
+                // Shoot
                 flyWheel.setPower(1);
-                midIntake.setPower(0.8); //Fast intake
+                midIntake.setPower(0.8); // Fast intake
                 stopper.setPosition(0.91); // I don't know why it's 0.91........ ask madybranch
                 telemetry.addLine("Shooting");
                 sleep(5000); // TODO check how long till all pollen is expelled
@@ -74,10 +74,67 @@ public class BlueAlliancePollenLine extends LinearOpMode {
                 telemetry.addLine("Stopped shooting");
 
                 // Go collect pollen from pollen line
+                // TODO make sure it leaves starting position slightly to be able to rotate.
                 forwardMovement();
                 sleep(100);
                 stopMovement();
+
+
+                // Rotate and move to border
+                // TODO make sure it turns the right way with the correct timings.
+                leftRotate();
+                sleep(300);
+                stopMovement();
+                leftMovement();
+                sleep(150);
+
+                // Move and collect pollen line
+                midIntake.setPower(0.8)
+                forwardMovement();
+                sleep(500);
+                stopMovement();
+                midIntake.setPower(0);
+
+                // Move to other side of the hive
+                // TODO make sure it moves as close to the hive edge to not bump into other team. Also correct timings.
+                backardwardMovement();
+                sleep(200);
+                rightMovement(); // To move away from the wall to rotate
+                sleep(50);
+                leftRotate();
+                sleep(300);
+                stopMovement();
                 sleep(100);
+                backwardMovement(); // Backs up to other side
+                sleep(700);
+                stopMovement();
+                sleep(100);
+                leftMovement();
+                sleep(200);
+                stopMovement();
+
+                // Shoot
+                // TODO Reference first shoot block
+                flyWheel.setPower(1);
+                midIntake.setPower(0.8); // Fast intake
+                stopper.setPosition(0.91); // I don't know why it's 0.91........ ask madybranch
+                telemetry.addLine("Shooting");
+                sleep(5000); // TODO check how long till all pollen is expelled
+
+                // Turn it all off
+                // TODO Reference first "turn it all off" block
+                flyWheel.setPower(0);
+                midIntake.setPower(0);
+                stopper.setPosition(0);
+                telemetry.addLine("Stopped shooting");
+
+                // Move to park
+                // TODO make sure timings are correct, should park halfway into the lot (at least halfway, don't go over just in case) 
+                rightMovement();
+                sleep(500);
+                forwardMovement();
+                sleep(200)
+                
 
                 // Stop bot
                 stopMovement();
@@ -106,6 +163,13 @@ public class BlueAlliancePollenLine extends LinearOpMode {
         backLeft.setPower(-1);
         frontRight.setPower(1);
         backRight.setPower(1);
+    }
+
+    private void backwardMovement() {
+        frontLeft.setPower(1);
+        backLeft.setPower(1);
+        frontRight.setPower(-1);
+        backRight.setPower(-1);
     }
 
     private void rightMovement() { // TODO double check this if it's truly right
