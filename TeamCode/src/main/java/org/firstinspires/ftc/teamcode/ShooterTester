@@ -22,9 +22,12 @@ public class ShooterTester extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        double ServoPosClosed = 0.91;
-        double ServoPosOpen = 0.5;
-        int LanchVeloMin = 1150;
+        double ServoPosClosed = 0.91; // Change this Varible to the servos closed position
+        double ServoPosOpen = 0.5; // Change this varible to the Servos opened position 
+        int LanchVeloMin = 1150; // This is the velocity of which you want the balls to shoot at
+        int StrongMotorPower = 1; // This controls the middle intake and how fast they run (Max Power)(Dont Change)
+        int MidMotorPower = 0.8; // This controls the middle intake and how fast they run (Mid Power) (Change this if you want to change shooting intake speed)
+        int WeakMotorPower = 0; // This controls the middle intake and how fast they run (No Power)(Dont Change)
         timer.reset();
         
 
@@ -49,7 +52,7 @@ public class ShooterTester extends LinearOpMode {
                 telemetry.addLine("Full Power FlyWheel - A");
                 telemetry.addLine("Optimized Velocity FlyWheel - B");
                 telemetry.addLine();
-                flyWheel.setPower(1);
+                flyWheel.setPower(StrongMotorPower);
 
                 // Fly Wheel controls (Dpad up, Dpad down)
 
@@ -60,14 +63,14 @@ public class ShooterTester extends LinearOpMode {
         
                 if (flyWheel.getVelocity() >= LanchVeloMin) {
                     flyWheel.setVelocity(LanchVeloMin);
-                    midIntake.setPower(0.8); //Fast intake
+                    midIntake.setPower(MidMotorPower); //Fast intake
                     stopper.setPosition(ServoPosOpen); // Open Pos
                     telemetry.addLine("Shooting");
                 }
                 }
                 if (gamepad1.dpad_down) {
                     flyWheel.setVelocity(LanchVeloMin - 150);
-                    midIntake.setPower(1); //Slower intake
+                    midIntake.setPower(MidMotorPower); //Slower intake
                     stopper.setPosition(ServoPosClosed); // Closed Pos
                     midIntake.setDirection(DcMotorSimple.Direction.FORWARD);
                     telemetry.addLine("Holding");
@@ -78,7 +81,7 @@ public class ShooterTester extends LinearOpMode {
                 // Front Intake Controls
 
                 if (gamepad1.right_bumper) { // graby graby balls should be norm
-                    midIntake.setPower(0);
+                    midIntake.setPower(WeakMotorPower);
                 } 
                 if (gamepad1.left_bumper) { // bady bady balls 
                     midIntake.setDirection(DcMotorSimple.Direction.REVERSE); //Reversy revere
