@@ -86,6 +86,13 @@ public class ShooterTester extends LinearOpMode {
                     stopper.setPosition(ServoPosClosed);
                 }
 
+                if (gamepad1.a) {
+                    flyWheel.setVelocity(6000);
+                }
+                if (gamepad1.b) {
+                    flyWheel.setVelocity(LanchVeloMin);
+                }
+
 
         telemetry.addData("Servo Position", stopper.getPosition());
         if (stopper.getPosition() == ServoPosClosed) {
