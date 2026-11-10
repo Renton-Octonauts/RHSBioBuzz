@@ -26,7 +26,7 @@ public class ShooterTester extends LinearOpMode {
         double ServoPosOpen = 0.5; // Change this varible to the Servos opened position 
         int LanchVeloMin = 1150; // This is the velocity of which you want the balls to shoot at
         int StrongMotorPower = 1; // This controls the middle intake and how fast they run (Max Power)(Dont Change)
-        int MidMotorPower = 0.8; // This controls the middle intake and how fast they run (Mid Power) (Change this if you want to change shooting intake speed)
+        double MidMotorPower = 0.8; // This controls the middle intake and how fast they run (Mid Power) (Change this if you want to change shooting intake speed)
         int WeakMotorPower = 0; // This controls the middle intake and how fast they run (No Power)(Dont Change)
         timer.reset();
         
