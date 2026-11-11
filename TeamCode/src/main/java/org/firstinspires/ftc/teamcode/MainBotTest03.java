@@ -20,6 +20,7 @@ public class MainBotTest03 extends LinearOpMode {
 
     private DcMotorEx flyWheel;
     private DcMotorEx midIntake;
+    private DcMotorEx mainIntake;
     private Servo stopper;
 
     @Override
@@ -49,6 +50,7 @@ public class MainBotTest03 extends LinearOpMode {
         flyWheel = hardwareMap.get(DcMotorEx.class, "flyWheel");
         stopper = hardwareMap.get(Servo.class, "stopper");
         midIntake = hardwareMap.get(DcMotorEx.class, "midIntake");
+        mainIntake = hardware.get(DcMotorEx.class, "mainIntake");
 
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -57,6 +59,7 @@ public class MainBotTest03 extends LinearOpMode {
         
         flyWheel.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         midIntake.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        mainIntake.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
 
         waitForStart();
@@ -67,8 +70,7 @@ public class MainBotTest03 extends LinearOpMode {
                 telemetry.addLine("Up Dpad - Shoots balls");
                 telemetry.addLine("Right bumper - Stop Intake");
                 telemetry.addLine("Left bumper - Spit out balls");
-                telemetry.addLine("Full Power FlyWheel - A");
-                telemetry.addLine("Optimized Velocity FlyWheel - B");
+
                 telemetry.addLine();
                 flyWheel.setPower(StrongMotorPower);
 
@@ -87,6 +89,9 @@ public class MainBotTest03 extends LinearOpMode {
                     timer.reset();
                     flyWheel.setVelocity(LanchVeloMin);
                     midIntake.setDirection(DcMotorSimple.Direction.FORWARD);
+                    mainIntake.setDirection(DcMotorSimple.Direction.FORWARD);
+                    mainIntake.setPower(StrongMotorPower);
+                    
         
                 if (flyWheel.getVelocity() >= LanchVeloMin) {
                     flyWheel.setVelocity(LanchVeloMin);
@@ -99,6 +104,7 @@ public class MainBotTest03 extends LinearOpMode {
                 if (gamepad1.dpad_down) {
                     flyWheel.setVelocity(LanchVeloMin - 150);
                     midIntake.setPower(MidMotorPower); //Slower intake
+                    mainIntake.setPower(StrongMotorPower);
               //      stopper.setPosition(ServoPosClosed); // Closed Pos
                     midIntake.setDirection(DcMotorSimple.Direction.FORWARD);
                     ServoOpen = false;
@@ -111,18 +117,14 @@ public class MainBotTest03 extends LinearOpMode {
 
                 if (gamepad1.right_bumper) { // graby graby balls should be norm
                     midIntake.setPower(WeakMotorPower);
+                    mainIntake.setPower(WeakMotorPower);
                 } 
                 if (gamepad1.left_bumper) { // bady bady balls 
                     midIntake.setDirection(DcMotorSimple.Direction.REVERSE); //Reversy revere
+                    mainIntake.setDirection(DcMotorSimple.Direction.REVERSE);
+                    mainIntake.setPower(StrongMotorPower);
                     telemetry.addLine("Spitting Out Balls");
                     stopper.setPosition(ServoPosClosed);
-                }
-
-                if (gamepad1.a) {
-                    flyWheel.setVelocity(6000);
-                }
-                if (gamepad1.b) {
-                    flyWheel.setVelocity(LanchVeloMin);
                 }
             
         if (ServoOpen == true) {
