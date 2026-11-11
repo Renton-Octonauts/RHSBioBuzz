@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-@TeleOp(name = "ShooterTest")
-public class ShooterTest extends LinearOpMode {
+@TeleOp(name = "MainBotTest03")
+public class MainBotTest03 extends LinearOpMode {
 
     private DcMotor frontLeft;
     private DcMotor backLeft;
