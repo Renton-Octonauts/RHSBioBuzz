@@ -13,6 +13,10 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 @TeleOp(name = "ShooterTest")
 public class ShooterTest extends LinearOpMode {
 
+    private DcMotor frontLeft;
+    private DcMotor backLeft;
+    private DcMotor frontRight;
+    private DcMotor backRight;
 
     private DcMotorEx flyWheel;
     private DcMotorEx midIntake;
@@ -20,6 +24,10 @@ public class ShooterTest extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+
+        double Strafe = 0;
+        float Drive = 0;
+        float Rotate = 0;
 
         boolean ServoOpen = false;
         double ServoPosClosed = 0.2; // Change this Varible to the servos closed position
@@ -33,9 +41,19 @@ public class ShooterTest extends LinearOpMode {
 
 // Hardware get info stuff
 
+        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
+        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
+        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
+        backRight = hardwareMap.get(DcMotor.class, "backRight");
+
         flyWheel = hardwareMap.get(DcMotorEx.class, "flyWheel");
         stopper = hardwareMap.get(Servo.class, "stopper");
         midIntake = hardwareMap.get(DcMotorEx.class, "midIntake");
+
+        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         
         flyWheel.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         midIntake.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
@@ -53,6 +71,14 @@ public class ShooterTest extends LinearOpMode {
                 telemetry.addLine("Optimized Velocity FlyWheel - B");
                 telemetry.addLine();
                 flyWheel.setPower(StrongMotorPower);
+
+                frontLeft.setPower(Strafe * 1 + Drive * 1 + Rotate * -1);
+                backLeft.setPower(Strafe * 1 + Drive * 1 + Rotate * 1);
+                frontRight.setPower(Strafe * 1 + Drive * -1 + Rotate * -1);
+                backRight.setPower(Strafe * 1 + Drive * -1 + Rotate * 1);
+                Drive = gamepad1.left_stick_y * 1;
+                Rotate = gamepad1.left_stick_x * 1;
+                Strafe = gamepad1.right_stick_x * -1;
 
                 // Fly Wheel controls (Dpad up, Dpad down)
             
