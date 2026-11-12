@@ -37,7 +37,7 @@ public class MainBotTest03 extends LinearOpMode {
         int StrongMotorPower = 1; // This controls the middle intake and how fast they run (Max Power)(Dont Change)
         double MidMotorPower = 0.8; // This controls the middle intake and how fast they run (Mid Power) (Change this if you want to change shooting intake speed)
         int WeakMotorPower = 0; // This controls the middle intake and how fast they run (No Power)(Dont Change)
-        timer.reset();
+
         
 
 // Hardware get info stuff
