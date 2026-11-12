@@ -114,14 +114,14 @@ public class madsTest extends LinearOpMode {
                 if (gamepad1.a) { //Balls going in
                     mainIntake.setPower(1);
                     middleIntake.setPower(0);
-                    intakeFrontLeft.setPower(1);
-                    intakeFrontRight.setPower(-1);
+                    intakeFrontLeft.setPosition(1);
+                    intakeFrontRight.setPosition(-1);
                 }
                 if (gamepad1.b) { //Balls going out
                     mainIntake.setPower(-1);
                     middleIntake.setPower(-1);
-                    intakeFrontLeft.setPower(-1); //Check left and right intake settings
-                    intakeFrontRight.setPower(1);
+                    intakeFrontLeft.setPosition(-1); //Check left and right intake settings
+                    intakeFrontRight.setPosition(1);
                 }
 
                 // Fly Wheel controls (Dpad up, Dpad down)
@@ -215,7 +215,7 @@ public class madsTest extends LinearOpMode {
     private void telemetryAprilTag() {
 
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-        telemetry.addLine(currentDetections().toString());
+        telemetry.addLine(currentDetections.toString());
         telemetry.addData("# AprilTags Detected", currentDetections.size());
 
         // Step through the list of detections and display info for each one.

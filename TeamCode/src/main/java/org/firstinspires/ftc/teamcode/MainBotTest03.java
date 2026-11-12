@@ -13,6 +13,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 @TeleOp(name = "MainBotTest03")
 public class MainBotTest03 extends LinearOpMode {
 
+    ElapsedTime timer = new ElapsedTime();
+
     private DcMotor frontLeft;
     private DcMotor backLeft;
     private DcMotor frontRight;
@@ -33,7 +35,7 @@ public class MainBotTest03 extends LinearOpMode {
         boolean ServoOpen = false;
         double ServoPosClosed = 0.2; // Change this Varible to the servos closed position
         double ServoPosOpen = 0; // Change this varible to the Servos opened position 
-        int LanchVeloMin = 1150; // This is the velocity of which you want the balls to shoot at
+        int LanchVeloMin = 1150; // This is the velocity of which ycannot find symbol timerou want the balls to shoot at
         int StrongMotorPower = 1; // This controls the middle intake and how fast they run (Max Power)(Dont Change)
         double MidMotorPower = 0.8; // This controls the middle intake and how fast they run (Mid Power) (Change this if you want to change shooting intake speed)
         int WeakMotorPower = 0; // This controls the middle intake and how fast they run (No Power)(Dont Change)
@@ -49,7 +51,7 @@ public class MainBotTest03 extends LinearOpMode {
         flyWheel = hardwareMap.get(DcMotorEx.class, "flyWheel");
         stopper = hardwareMap.get(Servo.class, "stopper");
         midIntake = hardwareMap.get(DcMotorEx.class, "midIntake");
-        mainIntake = hardware.get(DcMotorEx.class, "mainIntake");
+        mainIntake = hardwareMap.get(DcMotorEx.class, "mainIntake");
 
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

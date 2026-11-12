@@ -13,6 +13,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 @TeleOp(name = "ShooterTest")
 public class ShooterTest extends LinearOpMode {
 
+    ElapsedTime timer = new ElapsedTime();
+
 
     private DcMotorEx flyWheel;
     private DcMotorEx midIntake;

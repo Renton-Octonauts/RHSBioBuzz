@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-@TeleOp(name = "MainBot0.1")
-public class MainBotTest01 extends LinearOpMode {
+@TeleOp(name = "MainBotTest 02")
+public class MainBotTest02 extends LinearOpMode {
 
     private ElapsedTime timer = new ElapsedTime();
     private boolean actionTriggered = false;
