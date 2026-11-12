@@ -38,7 +38,6 @@ public class MainBotTest03 extends LinearOpMode {
         double MidMotorPower = 0.8; // This controls the middle intake and how fast they run (Mid Power) (Change this if you want to change shooting intake speed)
         int WeakMotorPower = 0; // This controls the middle intake and how fast they run (No Power)(Dont Change)
 
-        
 
 // Hardware get info stuff
 
@@ -56,7 +55,7 @@ public class MainBotTest03 extends LinearOpMode {
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        
+
         flyWheel.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         midIntake.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         mainIntake.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
@@ -65,7 +64,7 @@ public class MainBotTest03 extends LinearOpMode {
         waitForStart();
         if (opModeIsActive()) {
             while (opModeIsActive()) {
-                
+
                 telemetry.addLine("Down Dpad - Keep balls");
                 telemetry.addLine("Up Dpad - Shoots balls");
                 telemetry.addLine("Right bumper - Stop Intake");
@@ -83,7 +82,7 @@ public class MainBotTest03 extends LinearOpMode {
                 Strafe = gamepad1.right_stick_x * -1;
 
                 // Fly Wheel controls (Dpad up, Dpad down)
-            
+
 
                 if (gamepad1.dpad_up) {
                     timer.reset();
@@ -91,26 +90,26 @@ public class MainBotTest03 extends LinearOpMode {
                     midIntake.setDirection(DcMotorSimple.Direction.FORWARD);
                     mainIntake.setDirection(DcMotorSimple.Direction.FORWARD);
                     mainIntake.setPower(StrongMotorPower);
-                    
-        
-                if (flyWheel.getVelocity() >= LanchVeloMin) {
-                    flyWheel.setVelocity(LanchVeloMin);
-                    midIntake.setPower(MidMotorPower); //Fast intake
-           //         stopper.setPosition(ServoPosOpen); // Open Pos
-                    ServoOpen = true;
-                    telemetry.addLine("Shooting");
-                }
+
+
+                    if (flyWheel.getVelocity() >= LanchVeloMin) {
+                        flyWheel.setVelocity(LanchVeloMin);
+                        midIntake.setPower(MidMotorPower); //Fast intake
+                        //         stopper.setPosition(ServoPosOpen); // Open Pos
+                        ServoOpen = true;
+                        telemetry.addLine("Shooting");
+                    }
                 }
                 if (gamepad1.dpad_down) {
                     flyWheel.setVelocity(LanchVeloMin - 150);
                     midIntake.setPower(MidMotorPower); //Slower intake
                     mainIntake.setPower(StrongMotorPower);
-              //      stopper.setPosition(ServoPosClosed); // Closed Pos
+                    //      stopper.setPosition(ServoPosClosed); // Closed Pos
                     midIntake.setDirection(DcMotorSimple.Direction.FORWARD);
                     ServoOpen = false;
                     telemetry.addLine("Holding");
                 }
-                
+
                 telemetry.addData("Current FlyWheel Velocity: ", flyWheel.getVelocity());
 
                 // Front Intake Controls
@@ -118,7 +117,7 @@ public class MainBotTest03 extends LinearOpMode {
                 if (gamepad1.right_bumper) { // graby graby balls should be norm
                     midIntake.setPower(WeakMotorPower);
                     mainIntake.setPower(WeakMotorPower);
-                } 
+                }
                 if (gamepad1.left_bumper) { // bady bady balls 
                     midIntake.setDirection(DcMotorSimple.Direction.REVERSE); //Reversy revere
                     mainIntake.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -126,30 +125,24 @@ public class MainBotTest03 extends LinearOpMode {
                     telemetry.addLine("Spitting Out Balls");
                     stopper.setPosition(ServoPosClosed);
                 }
-            
-        if (ServoOpen == true) {
-            stopper.setPosition(ServoPosOpen);
-        }
-        if (ServoOpen == false) {
-            stopper.setPosition(ServoPosClosed);
-            
-        }
 
-        telemetry.addData("Servo Position", stopper.getPosition());
-        if (stopper.getPosition() == ServoPosClosed) {
-            telemetry.addLine("The Stopper is closed");
-        } else {
-            telemetry.addLine("The Stopper is Open");
+                if (ServoOpen == true) {
+                    stopper.setPosition(ServoPosOpen);
+                }
+                if (ServoOpen == false) {
+                    stopper.setPosition(ServoPosClosed);
+
+                }
+
+                telemetry.addData("Servo Position", stopper.getPosition());
+                if (stopper.getPosition() == ServoPosClosed) {
+                    telemetry.addLine("The Stopper is closed");
+                } else {
+                    telemetry.addLine("The Stopper is Open");
+                }
+
+                telemetry.update();
+            }
         }
-        
-        telemetry.update();
     }
-}
-}
-}
-        }
-        telemetry.update();
-    }
-}
-}
 }
