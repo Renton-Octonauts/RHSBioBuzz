@@ -25,7 +25,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class BlueAlliancePollenLine extends LinearOpMode {
 
-    private static final double FLYWHEEL_POWER = 1 // TODO Calibrate flywheel power for accurate shooting into hive
+    private static final double FLYWHEEL_POWER = 1; // TODO Calibrate flywheel power for accurate shooting into hive
     private static final double LAUNCH_VELOCITY_MINIMUM_POWER = 0.5;
 
     private DcMotor flyWheel;
@@ -62,8 +62,8 @@ public class BlueAlliancePollenLine extends LinearOpMode {
 
                 // Shoot
                 flyWheel.setPower(1);
-                midIntake.setPower(0.8); // Fast intake
-                stopper.setPosition(0.91); // I don't know why it's 0.91........ ask madybranch
+                midIntake.setPower(0.8); // // This controls the middle intake and how fast they run (Mid Power)
+                stopper.setPosition(0.91); // Opens the shooter to let the balls in
                 telemetry.addLine("Shooting");
                 sleep(5000); // TODO check how long till all pollen is expelled
 
@@ -89,7 +89,7 @@ public class BlueAlliancePollenLine extends LinearOpMode {
                 sleep(150);
 
                 // Move and collect pollen line
-                midIntake.setPower(0.8)
+                midIntake.setPower(0.8);
                 forwardMovement();
                 sleep(500);
                 stopMovement();
@@ -97,7 +97,7 @@ public class BlueAlliancePollenLine extends LinearOpMode {
 
                 // Move to other side of the hive
                 // TODO make sure it moves as close to the hive edge to not bump into other team. Also correct timings.
-                backardwardMovement();
+                backwardMovement();
                 sleep(200);
                 rightMovement(); // To move away from the wall to rotate
                 sleep(50);
@@ -133,7 +133,7 @@ public class BlueAlliancePollenLine extends LinearOpMode {
                 rightMovement();
                 sleep(500);
                 forwardMovement();
-                sleep(200)
+                sleep(200);
                 
 
                 // Stop bot
