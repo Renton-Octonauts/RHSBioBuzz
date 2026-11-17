@@ -36,8 +36,8 @@ public class BlueAlliancePollenLine extends LinearOpMode {
     private DcMotor midIntake;
     private Servo stopper;
 
-
-
+    // Used to track how long things run
+    ElapsedTime timer = new ElapsedTime();
 
     @Override
     public void runOpMode() {
@@ -54,6 +54,7 @@ public class BlueAlliancePollenLine extends LinearOpMode {
         telemetry.update();
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+        timer.reset();
 
 
         if (opModeIsActive()) {
@@ -136,9 +137,11 @@ public class BlueAlliancePollenLine extends LinearOpMode {
                 sleep(200);
                 
 
+                telemetry.addData("Elapsed time", "%.1f seconds", timer.seconds());
+                telemetry.update();
                 // Stop bot
                 stopMovement();
-                sleep(3000);
+                sleep(1000);
                 midIntake.setPower(0);
                 flyWheel.setPower(0);
                 telemetry.update();
