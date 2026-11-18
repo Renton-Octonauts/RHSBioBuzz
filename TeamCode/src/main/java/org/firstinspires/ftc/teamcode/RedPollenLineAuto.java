@@ -34,7 +34,7 @@ public class RedPollenLineAuto extends LinearOpMode {
     private DcMotorEx mainIntake;
     private Servo stopper;
 
-    final double ServoPosClosed = 0.2; // TODO Values
+    final double ServoPosClosed = 0.8; // TODO Values
     final double ServoPosOpen = 0; // TODO Values
 
     private final PoseFactory poseFactory = PoseFactory.degrees();
@@ -191,13 +191,22 @@ public class RedPollenLineAuto extends LinearOpMode {
 
     private Command shootProcess() {
         return sequential (
+                //Rev up
+            instant(() -> {
+                flyWheel.setPower(-1.0);
+                midIntake.setPower(-1.0);
+                mainIntake.setPower(-1.0);
+                stopper.setPosition(ServoPosClosed);
+            }),
+            waitMs(3000),
+                //
             instant(() -> {
                 flyWheel.setPower(-1.0);
                 midIntake.setPower(-1.0);
                 mainIntake.setPower(-1.0);
                 stopper.setPosition(ServoPosOpen);
             }),
-            waitMs(10000),
+            waitMs(3000),
             instant(() -> {
                 flyWheel.setPower(0);
                 midIntake.setPower(0);
