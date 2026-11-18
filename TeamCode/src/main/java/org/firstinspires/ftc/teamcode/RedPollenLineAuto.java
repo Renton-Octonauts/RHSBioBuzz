@@ -70,6 +70,7 @@ public class RedPollenLineAuto extends LinearOpMode {
             shootProcess(),
             follow(follower, path1180()),
             follow(follower, headToLine()),
+            // TODO activate intake and close it after collection
             follow(follower, collectBallssleep()),
             follow(follower, walkDiagonal()),
             follow(follower, walkBackAndRotateBackwards()),
