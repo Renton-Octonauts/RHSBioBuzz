@@ -17,8 +17,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.pedropathing.paths.interpolator.Interpolator;
 
-@Autonomous(name = "AutoPath", group = "Autonomous")
-public class AutoPath extends LinearOpMode {
+@Autonomous(name = "Red Alliance Pollen Line Auto, Faces Hive", group = "Autonomous")
+public class RedPollenLineAuto extends LinearOpMode {
 
     private Follower follower;
 
