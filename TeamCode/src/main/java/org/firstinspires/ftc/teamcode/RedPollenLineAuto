@@ -17,6 +17,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.pedropathing.paths.interpolator.Interpolator;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
+
 @Autonomous(name = "Red Alliance Pollen Line Auto, Faces Hive", group = "Autonomous")
 public class RedPollenLineAuto extends LinearOpMode {
 
