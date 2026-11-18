@@ -21,6 +21,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
+// Cool Example https://github.com/BeepBot99/CodeBloodedDecodeV2/blob/master/src/main/java/org/firstinspires/ftc/teamcode/opmodes/autos/BlueClose15Full.java
+
 @Autonomous(name = "Red Alliance Pollen Line Auto, Faces Hive", group = "Autonomous")
 public class RedPollenLineAuto extends LinearOpMode {
 
@@ -73,7 +75,7 @@ public class RedPollenLineAuto extends LinearOpMode {
             follow(follower, walkBackAndRotateBackwards()),
             follow(follower, walkDiagonal_2()),
             follow(follower, walkBackAndShootsleep()),
-            shootProcess();
+            shootProcess(),
             follow(follower, walkUp()),
             follow(follower, path9180AndMoveToFlowersleep()),
             // TODO lower flower bar
@@ -82,7 +84,7 @@ public class RedPollenLineAuto extends LinearOpMode {
             // TODO raise flower bar
             follow(follower, path12180AndMoveToHive()),
             follow(follower, walkBackAndShootsleep_2()),
-            shootProcess();
+            shootProcess(),
             follow(follower, walkForward()),
             follow(follower, strafeToParking())
         );
@@ -187,7 +189,7 @@ public class RedPollenLineAuto extends LinearOpMode {
     private Command shootProcess() {
         return sequential (
             instant(() -> {
-                flywheel.setPower(1.0);
+                flyWheel.setPower(1.0);
                 midIntake.setPower(1.0);
                 mainIntake.setPower(1.0);
                 stopper.setPosition(ServoPosOpen);
@@ -204,9 +206,11 @@ public class RedPollenLineAuto extends LinearOpMode {
 
     private Command raiseFlowerBar() {
         // TODO when Build team finishes applying flower bar extractor. do the same thing with shoot command but flowerBarServoRight.setPosition(69 or smth); y left side too.
+        return
     }
 
     private Command lowerFlowerBar() {
         // TODO when Build team finishes applying flower bar extractor. do the same thing with shoot command but flowerBarServoRight.setPosition(69 or smth); y left side too.
+        return
     }
 }
