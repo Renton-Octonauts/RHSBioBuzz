@@ -25,6 +25,13 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class RedPollenLineAuto extends LinearOpMode {
 
     private Follower follower;
+    private DcMotorEx flyWheel;
+    private DcMotorEx midIntake;
+    private DcMotorEx mainIntake;
+    private Servo stopper;
+
+    double ServoPosClosed = 0.2; // TODO make sure Servo Position is CLOSED
+    double ServoPosOpen = 0; // TODO make sure Servo Position is OPEN
 
     private final PoseFactory poseFactory = PoseFactory.degrees();
 
@@ -55,9 +62,10 @@ public class RedPollenLineAuto extends LinearOpMode {
     private final Pose walkForward = poseFactory.of(59, 120, 270);
     private final Pose strafeToParking = poseFactory.of(7.9, 120, 270);
 
-    // Autonomous routine
+    // Autonomous routine, EDIT HERE!, TODO add raising and lowering of flower extraction bar
     public Command autoRoutine() {
         return sequential(
+            shootProcess(),
             follow(follower, path1180()),
             follow(follower, headToLine()),
             follow(follower, collectBallssleep()),
@@ -65,12 +73,16 @@ public class RedPollenLineAuto extends LinearOpMode {
             follow(follower, walkBackAndRotateBackwards()),
             follow(follower, walkDiagonal_2()),
             follow(follower, walkBackAndShootsleep()),
+            shootProcess();
             follow(follower, walkUp()),
             follow(follower, path9180AndMoveToFlowersleep()),
+            // TODO lower flower bar
             follow(follower, collectPollensleep()),
             follow(follower, walkBack()),
+            // TODO raise flower bar
             follow(follower, path12180AndMoveToHive()),
             follow(follower, walkBackAndShootsleep_2()),
+            shootProcess();
             follow(follower, walkForward()),
             follow(follower, strafeToParking())
         );
@@ -80,6 +92,15 @@ public class RedPollenLineAuto extends LinearOpMode {
     public void runOpMode() {
         Scheduler.reset();
         follower = Constants.create(hardwareMap);
+        flyWheel = hardwareMap.get(DcMotorEx.class, "flyWheel");
+        midIntake = hardwareMap.get(DcMotorEx.class, "midIntake");
+        mainIntake = hardwareMap.get(DcMotorEx.class, "mainIntake");
+        stopper = hardwareMap.get(Servo.class, "stopper");
+
+        // Set motor zero-power behavior
+        flyWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        midIntake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        mainIntake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         follower.setPose(redAlliancePollenLineFacingHive);
         follower.update();
 
@@ -161,5 +182,31 @@ public class RedPollenLineAuto extends LinearOpMode {
 
     public Path strafeToParking() {
         return Paths.line(walkForward, strafeToParking).constant(strafeToParking);
+    }
+
+    private Command shootProcess() {
+        return sequential (
+            instant(() -> {
+                flywheel.setPower(1.0);
+                midIntake.setPower(1.0);
+                mainIntake.setPower(1.0);
+                stopper.setPosition(ServoPosOpen);
+            }),
+            waitMs(3000),
+            instant(() -> {
+                flywheel.setPower(0);
+                midIntake.setPower(0);
+                mainIntake.setPower(0);
+                stopper.setPosition(ServoPosClosed);
+            })
+        );
+    }
+
+    private Command raiseFlowerBar() {
+        // TODO when Build team finishes applying flower bar extractor. do the same thing with shoot command but flowerBarServoRight.setPosition(69 or smth); y left side too.
+    }
+
+    private Command lowerFlowerBar() {
+        // TODO when Build team finishes applying flower bar extractor. do the same thing with shoot command but flowerBarServoRight.setPosition(69 or smth); y left side too.
     }
 }
