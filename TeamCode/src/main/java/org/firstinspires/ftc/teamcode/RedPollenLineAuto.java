@@ -21,6 +21,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.pedro.Constants;
+
 // Cool Example https://github.com/BeepBot99/CodeBloodedDecodeV2/blob/master/src/main/java/org/firstinspires/ftc/teamcode/opmodes/autos/BlueClose15Full.java
 
 @Autonomous(name = "Red Alliance Pollen Line Auto, Faces Hive", group = "Autonomous")
@@ -197,7 +199,7 @@ public class RedPollenLineAuto extends LinearOpMode {
             }),
             waitMs(3000),
             instant(() -> {
-                flywheel.setPower(0);
+                flyWheel.setPower(0);
                 midIntake.setPower(0);
                 mainIntake.setPower(0);
                 stopper.setPosition(ServoPosClosed);
@@ -205,13 +207,13 @@ public class RedPollenLineAuto extends LinearOpMode {
         );
     }
 
-    private Command raiseFlowerBar() {
+    //private Command raiseFlowerBar() {
         // TODO when Build team finishes applying flower bar extractor. do the same thing with shoot command but flowerBarServoRight.setPosition(69 or smth); y left side too.
-        return
-    }
+        //return
+    //}
 
-    private Command lowerFlowerBar() {
+    //private Command lowerFlowerBar() {
         // TODO when Build team finishes applying flower bar extractor. do the same thing with shoot command but flowerBarServoRight.setPosition(69 or smth); y left side too.
-        return
-    }
+        //return
+    //}
 }
