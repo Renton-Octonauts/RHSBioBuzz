@@ -33,9 +33,14 @@ public class RedPollenLineAuto extends LinearOpMode {
     private DcMotorEx midIntake;
     private DcMotorEx mainIntake;
     private Servo stopper;
+    private Servo flowerBarRight;
+    private Servo flowerBarLeft;
 
-    final double ServoPosClosed = 0.8; // TODO Values
-    final double ServoPosOpen = 0; // TODO Values
+    final double ServoPosClosed = 0.8; // TODO Values for shooting
+    final double ServoPosOpen = 0; // TODO Values for shooting
+
+    final double ServoPosUp = 0; // TODO Values for bar
+    final double ServoPosDown = 0.7; // TODO Values for bar
 
     private final PoseFactory poseFactory = PoseFactory.degrees();
 
@@ -69,22 +74,27 @@ public class RedPollenLineAuto extends LinearOpMode {
     // Autonomous routine, EDIT HERE!, TODO add raising and lowering of flower extraction bar
     public Command autoRoutine() {
         return sequential(
+            revUp(),
+            waitMs(3000),
             shootProcess(),
             follow(follower, path1180()),
             follow(follower, headToLine()),
-            // TODO activate intake and close it after collection
+            intakeOn(),
             follow(follower, collectBallssleep()),
+            intakeOff(),
             follow(follower, walkDiagonal()),
             follow(follower, walkBackAndRotateBackwards()),
+            revUp(),
             follow(follower, walkDiagonal_2()),
             follow(follower, walkBackAndShootsleep()),
             shootProcess(),
             follow(follower, walkUp()),
+            lowerFlowerBar(),
             follow(follower, path9180AndMoveToFlowersleep()),
-            // TODO lower flower bar
             follow(follower, collectPollensleep()),
             follow(follower, walkBack()),
-            // TODO raise flower bar
+            raiseFlowerBar(),
+            revUp(),
             follow(follower, path12180AndMoveToHive()),
             follow(follower, walkBackAndShootsleep_2()),
             shootProcess(),
@@ -101,6 +111,8 @@ public class RedPollenLineAuto extends LinearOpMode {
         midIntake = hardwareMap.get(DcMotorEx.class, "midIntake");
         mainIntake = hardwareMap.get(DcMotorEx.class, "mainIntake");
         stopper = hardwareMap.get(Servo.class, "stopper");
+        flowerBarRight = hardwareMap.get(Servo.class, "flowerBarRight");
+        flowerBarLeft = hardwareMap.get(Servo.class, "flowerBarLeft");
 
         // Set motor zero-power behavior
         flyWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -191,19 +203,9 @@ public class RedPollenLineAuto extends LinearOpMode {
 
     private Command shootProcess() {
         return sequential (
-                //Rev up
+                // Shooting
                 instant(() -> {
-                    flyWheel.setPower(-1.0);
-                    midIntake.setPower(-1.0);
-                    mainIntake.setPower(-1.0);
-                    stopper.setPosition(ServoPosClosed);
-                }),
-                waitMs(3000),
-                //Actual shooting
-                instant(() -> {
-                    flyWheel.setPower(-1.0);
-                    midIntake.setPower(-1.0);
-                    mainIntake.setPower(-1.0);
+                    // Shooting motors should automatically be on
                     stopper.setPosition(ServoPosOpen);
                 }),
                 waitMs(3000),
@@ -217,13 +219,51 @@ public class RedPollenLineAuto extends LinearOpMode {
         );
     }
 
-    //private Command raiseFlowerBar() {
-        // TODO when Build team finishes applying flower bar extractor. do the same thing with shoot command but flowerBarServoRight.setPosition(69 or smth); y left side too.
-        //return
-    //}
+    private Command revUp() {
+        return sequential (
+                instant(() -> {
+                    flyWheel.setPower(-1.0);
+                    midIntake.setPower(-1.0);
+                    mainIntake.setPower(-1.0);
+                    stopper.setPosition(ServoPosClosed);
+                })
+        );
+    }
 
-    //private Command lowerFlowerBar() {
-        // TODO when Build team finishes applying flower bar extractor. do the same thing with shoot command but flowerBarServoRight.setPosition(69 or smth); y left side too.
-        //return
-    //}
+    private Command intakeOn() {
+        return sequential (
+                instant(() -> {
+                    midIntake.setPower(-1.0);
+                    mainIntake.setPower(-1.0);
+                    stopper.setPosition(ServoPosClosed);
+                })
+        );
+    }
+
+    private Command intakeOff() {
+        return sequential (
+                instant(() -> {
+                    midIntake.setPower(0);
+                    mainIntake.setPower(0);
+                    stopper.setPosition(ServoPosClosed);
+                })
+        );
+    }
+    private Command raiseFlowerBar() {
+        return sequential(
+                instant(() -> {
+                    flowerBarRight.setPosition(ServoPosUp);
+                    flowerBarLeft.setPosition(ServoPosUp);
+                })
+        );
+    }
+
+    private Command lowerFlowerBar() {
+        return sequential (
+                instant(() -> {
+                    flowerBarRight.setPosition(ServoPosDown);
+                    flowerBarLeft.setPosition(ServoPosDown);
+                })
+        );
+    }
 }
