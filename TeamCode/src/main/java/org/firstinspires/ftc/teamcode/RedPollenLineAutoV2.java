@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.pedro.Constants;
 // Cool Example https://github.com/BeepBot99/CodeBloodedDecodeV2/blob/master/src/main/java/org/firstinspires/ftc/teamcode/opmodes/autos/BlueClose15Full.java
 
 @Autonomous(name = "Red Alliance Pollen Line Auto, Faces Hive V2", group = "Autonomous")
-public class AutoPath extends LinearOpMode {
+public class RedPollenLineAutoV2 extends LinearOpMode {
 
     private Follower follower;
     private DcMotorEx flyWheel;
