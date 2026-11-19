@@ -192,27 +192,28 @@ public class RedPollenLineAuto extends LinearOpMode {
     private Command shootProcess() {
         return sequential (
                 //Rev up
-            instant(() -> {
-                flyWheel.setPower(-1.0);
-                midIntake.setPower(-1.0);
-                mainIntake.setPower(-1.0);
-                stopper.setPosition(ServoPosClosed);
-            }),
-            waitMs(3000),
-                //
-            instant(() -> {
-                flyWheel.setPower(-1.0);
-                midIntake.setPower(-1.0);
-                mainIntake.setPower(-1.0);
-                stopper.setPosition(ServoPosOpen);
-            }),
-            waitMs(3000),
-            instant(() -> {
-                flyWheel.setPower(0);
-                midIntake.setPower(0);
-                mainIntake.setPower(0);
-                stopper.setPosition(ServoPosClosed);
-            })
+                instant(() -> {
+                    flyWheel.setPower(-1.0);
+                    midIntake.setPower(-1.0);
+                    mainIntake.setPower(-1.0);
+                    stopper.setPosition(ServoPosClosed);
+                }),
+                waitMs(3000),
+                //Actual shooting
+                instant(() -> {
+                    flyWheel.setPower(-1.0);
+                    midIntake.setPower(-1.0);
+                    mainIntake.setPower(-1.0);
+                    stopper.setPosition(ServoPosOpen);
+                }),
+                waitMs(3000),
+                // Stop shooting
+                instant(() -> {
+                    flyWheel.setPower(0);
+                    midIntake.setPower(0);
+                    mainIntake.setPower(0);
+                    stopper.setPosition(ServoPosClosed);
+                })
         );
     }
 
