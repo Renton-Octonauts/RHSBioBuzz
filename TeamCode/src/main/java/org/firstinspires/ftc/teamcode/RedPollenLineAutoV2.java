@@ -36,8 +36,8 @@ public class RedPollenLineAutoV2 extends LinearOpMode {
     private Servo flowerBarRight;
     private Servo flowerBarLeft;
 
-    final double ServoPosClosed = 0.8; // TODO Values for shooting
-    final double ServoPosOpen = 0; // TODO Values for shooting
+    final double ServoPosClosed = 0.5;
+    final double ServoPosOpen = 0;
 
     final double ServoPosUp = 0; // TODO Values for bar
     final double ServoPosDown = 0.7; // TODO Values for bar

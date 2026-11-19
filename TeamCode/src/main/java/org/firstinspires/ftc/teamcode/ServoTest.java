@@ -28,7 +28,7 @@ public class ServoTest extends LinearOpMode {
                     stopper.setPosition(0);
                 }
                 if (gamepad1.b) {
-                    stopper.setPosition(0.8);
+                    stopper.setPosition(0.5);
                 }
                 telemetry.update();
             }
