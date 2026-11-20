@@ -33,14 +33,16 @@ public class RedPollenLineAutoV2 extends LinearOpMode {
     private DcMotorEx midIntake;
     private DcMotorEx mainIntake;
     private Servo stopper;
-    private Servo flowerBarRight;
-    private Servo flowerBarLeft;
+    //private Servo flowerBarRight;
+    //private Servo flowerBarLeft;
 
     final double ServoPosClosed = 0.5;
     final double ServoPosOpen = 0;
 
     final double ServoPosUp = 0; // TODO Values for bar
     final double ServoPosDown = 0.7; // TODO Values for bar
+
+    final double flyWheelPower = -0.86; // Perfect, don't change
 
     private final PoseFactory poseFactory = PoseFactory.degrees();
 
@@ -90,7 +92,7 @@ public class RedPollenLineAutoV2 extends LinearOpMode {
             revUp(),
             follow(follower, moveToOtherSideAndShoot()),
             shootProcess(),
-            lowerFlowerBar(),
+            //lowerFlowerBar(),
             intakeOn(),
             follow(follower, collectFlower()),
             waitMs(750),
@@ -98,7 +100,7 @@ public class RedPollenLineAutoV2 extends LinearOpMode {
             revUp(),
             follow(follower, walkUpAndShoot_2()),
             shootProcess(),
-            raiseFlowerBar(),
+            //raiseFlowerBar(),
             follow(follower, park())
         );
     }
@@ -111,8 +113,8 @@ public class RedPollenLineAutoV2 extends LinearOpMode {
         midIntake = hardwareMap.get(DcMotorEx.class, "midIntake");
         mainIntake = hardwareMap.get(DcMotorEx.class, "mainIntake");
         stopper = hardwareMap.get(Servo.class, "stopper");
-        flowerBarRight = hardwareMap.get(Servo.class, "flowerBarRight");
-        flowerBarLeft = hardwareMap.get(Servo.class, "flowerBarLeft");
+        //flowerBarRight = hardwareMap.get(Servo.class, "flowerBarRight");
+        //flowerBarLeft = hardwareMap.get(Servo.class, "flowerBarLeft");
 
         // Set motor zero-power behavior
         flyWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -190,7 +192,7 @@ public class RedPollenLineAutoV2 extends LinearOpMode {
     private Command revUp() {
         return sequential (
                 instant(() -> {
-                    flyWheel.setPower(-1.0);
+                    flyWheel.setPower(flyWheelPower);
                     midIntake.setPower(-1.0);
                     mainIntake.setPower(-1.0);
                     stopper.setPosition(ServoPosClosed);
@@ -217,21 +219,21 @@ public class RedPollenLineAutoV2 extends LinearOpMode {
                 })
         );
     }
-    private Command raiseFlowerBar() {
-        return sequential(
-                instant(() -> {
-                    flowerBarRight.setPosition(ServoPosUp);
-                    flowerBarLeft.setPosition(ServoPosUp);
-                })
-        );
-    }
+    //private Command raiseFlowerBar() {
+        //return sequential(
+                //instant(() -> {
+                    //flowerBarRight.setPosition(ServoPosUp);
+                    //flowerBarLeft.setPosition(ServoPosUp);
+               //})
+        //);
+    //}
 
-    private Command lowerFlowerBar() {
-        return sequential (
-                instant(() -> {
-                    flowerBarRight.setPosition(ServoPosDown);
-                    flowerBarLeft.setPosition(ServoPosDown);
-                })
-        );
-    }
+    //private Command lowerFlowerBar() {
+        //return sequential (
+                //instant(() -> {
+                    //flowerBarRight.setPosition(ServoPosDown);
+                    //flowerBarLeft.setPosition(ServoPosDown);
+                //})
+        //);
+    //}
 }
